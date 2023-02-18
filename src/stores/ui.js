@@ -3,12 +3,7 @@ import {defineStore} from 'pinia'
 export const useUIStore = defineStore('ui', {
   state: () => ({
     activeDragBox: null,
-    boxesOnScreen: [
-      'text-1',
-      'text-2',
-      'text-3',
-      'text-4',
-    ],
+    boxesOnScreen: [],
     topZIndex: 999,
 
   }),
@@ -16,6 +11,5 @@ export const useUIStore = defineStore('ui', {
     setBoxesOnScreen(boxes) {
       this.boxesOnScreen = boxes
     }
-  }
-
+  },
 })

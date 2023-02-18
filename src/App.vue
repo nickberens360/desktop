@@ -1,21 +1,44 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
 
-</script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/" exact>Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/contact">Contact</RouterLink>
-      </nav>
+  <div>
+    <div class="wrapper" style="text-align: right">
+
+
+      <button @click.stop="addItem('test-1')" class="p-2 pr-6">Test 1</button>
+      <button @click.stop="addItem('test-2')" class="p-2 pr-6">Test 2</button>
+      <button @click.stop="addItem('test-3')" class="p-2 pr-6">Test 3</button>
+
     </div>
-  </header>
+  </div>
   <RouterView />
 </template>
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+import { useUIStore } from '@/stores/ui';
+import { mapStores } from 'pinia';
+export default {
+  name: 'App',
+  components: {
+    RouterLink,
+    RouterView,
+  },
+  computed: {
+    ...mapStores(useUIStore),
+  },
+  methods: {
+    addItem(item) {
+      if (!this.uiStore.boxesOnScreen.includes(item)) {
+        this.uiStore.boxesOnScreen.push(item)
+      }
+      // this.uiStore.boxesOnScreen.push(item)
+      // localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
+    }
+  },
+}
 
+
+</script>
 <style scoped>
 header {
   line-height: 1.5;

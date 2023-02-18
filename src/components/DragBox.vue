@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" :class="{'is-active': isActive}" class="draggable cursor-grab p-2 px8 bg-gray-200" :ref="id" :style="{ left: x + 'px', top: y + 'px' }">
+  <div :id="id" :class="{'is-active': isActive}" class="drag-box cursor-grab p-2 px8 bg-gray-200" :ref="id" :style="{ left: x + 'px', top: y + 'px' }">
     <slot />
     Active Box: {{uiStore.activeDragBox}}<br>
     isActive: {{isActive}}<br>
@@ -18,7 +18,6 @@ export default {
     id: {
       type: String,
       required: true,
-      // default: 'draggable'
     },
     initialZIndex: {
       type: Number,
@@ -32,10 +31,13 @@ export default {
     };
   },
   mounted() {
-    this.x = +localStorage.getItem(`${this.id}-x`) || 0
-    this.y = +localStorage.getItem(`${this.id}-y`) || 0
-    // this.uiStore.boxesOnScreen = localStorage.getItem('boxesOnScreen');
-
+    this.x = localStorage.getItem(`${this.id}-x`) || 0
+    this.y = localStorage.getItem(`${this.id}-y`) || 0
+    if (localStorage.getItem('activeDragBox')){
+      this.uiStore.activeDragBox = localStorage.getItem('activeDragBox');
+    } else {
+      this.uiStore.activeDragBox = this.id;
+    }
     this.$refs[this.id].addEventListener("mousedown", this.handleMouseDown);
   },
   computed: {
@@ -55,14 +57,8 @@ export default {
 
       if (this.isActive) {
         let boxIndex = this.uiStore.boxesOnScreen.indexOf(this.id)
-        console.log('boxIndex', boxIndex)
         this.uiStore.boxesOnScreen.push(this.uiStore.boxesOnScreen.splice(boxIndex, 1)[0]);
       }
-
-      // let boxIndex = this.uiStore.boxesOnScreen.indexOf(this.id)
-      // this.uiStore.boxesOnScreen.push(this.uiStore.boxesOnScreen.splice(boxIndex, 1)[0]);
-
-      // set boxes on screen to localStorage
 
       const { clientX, clientY } = event;
       let currentX = clientX;
@@ -77,11 +73,11 @@ export default {
         currentY = clientY;
         localStorage.setItem(`${this.id}-x`, this.x);
         localStorage.setItem(`${this.id}-y`, this.y);
-
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
+        localStorage.setItem('activeDragBox', this.id)
       };
 
-      const handleMouseUp = event => {
+      const handleMouseUp = () => {
+        localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
       };
@@ -94,13 +90,12 @@ export default {
 </script>
 
 <style>
-.draggable {
+.drag-box {
   position: absolute;
-  /*z-index: 999;*/
   border: 1px solid #000;
   z-index: v-bind(setZIndex);
 }
-.is-active.draggable {
+.is-active.drag-box {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
 }
 </style>

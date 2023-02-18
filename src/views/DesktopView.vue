@@ -15,28 +15,27 @@ import { useUIStore } from '@/stores/ui';
 import { mapStores } from 'pinia';
 export default {
   name: 'DesktopView',
-  // data() {
-  //   return {
-  //     setItems: localStorage.getItem('boxesOnScreen')
-  //   };
-  // },
+  data() {
+    return {
+      setItems: null
+    };
+  },
   components: {
     DragBox,
   },
   computed: {
     ...mapStores(useUIStore),
-    setItems() {
-      // let localBoxItems = localStorage.getItem('boxesOnScreen')
-      // let stateBoxItems = this.uiStore.boxesOnScreen
-      //
-      // if (stateBoxItems.length) {
-      //   return localBoxItems
-      // }
-      // else {
-      //   return this.uiStore.boxesOnScreen
-      // }
-      return this.uiStore.boxesOnScreen
-    }
   },
+  mounted() {
+    let localBoxItems = JSON.parse(localStorage.getItem('boxesOnScreen'))
+    let stateBoxItems = this.uiStore.boxesOnScreen
+    if (localBoxItems) {
+      this.uiStore.boxesOnScreen = localBoxItems
+      this.setItems = localBoxItems
+    } else {
+      this.setItems = stateBoxItems
+    }
+    console.log('localBoxItems', localBoxItems)
+  }
 };
 </script>
