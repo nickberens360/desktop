@@ -9,8 +9,8 @@ export const useUIStore = defineStore('ui', {
   }),
   actions: {
     setScreenBoxes(item) {
-      console.log('Router', this.$router)
-      console.log('setScreenBoxes', item)
+      // console.log('Router', this.$router)
+      // console.log('setScreenBoxes', item)
       if (!this.boxesOnScreen.includes(item)) {
         this.boxesOnScreen.push(item)
         localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
