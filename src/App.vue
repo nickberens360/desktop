@@ -1,5 +1,3 @@
-
-
 <template>
   <div>
     <div class="wrapper" style="text-align: right">
@@ -26,20 +24,10 @@ export default {
   computed: {
     ...mapStores(useUIStore),
   },
+
   methods: {
     addItem(item) {
-      if (!this.uiStore.boxesOnScreen.includes(item)) {
-        this.uiStore.boxesOnScreen.push(item)
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
-      }
-      this.uiStore.activeDragBox = item
-      localStorage.setItem('activeDragBox', item)
-
-      if (!this.uiStore.activeDragBox === item) {
-        this.uiStore.boxesOnScreen.push(item)
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
-      }
-
+      this.uiStore.setScreenBoxes(item)
     }
   },
 }
