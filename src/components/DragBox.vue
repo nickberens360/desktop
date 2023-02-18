@@ -31,13 +31,14 @@ export default {
     };
   },
   mounted() {
-    this.x = localStorage.getItem(`${this.id}-x`) || 0
-    this.y = localStorage.getItem(`${this.id}-y`) || 0
+    this.x = +localStorage.getItem(`${this.id}-x`) || 0
+    this.y = +localStorage.getItem(`${this.id}-y`) || 0
     if (localStorage.getItem('activeDragBox')){
       this.uiStore.activeDragBox = localStorage.getItem('activeDragBox');
     } else {
       this.uiStore.activeDragBox = this.id;
     }
+    // localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
     this.$refs[this.id].addEventListener("mousedown", this.handleMouseDown);
   },
   computed: {
@@ -51,7 +52,6 @@ export default {
   },
   methods: {
     handleMouseDown(event) {
-      console.log('handleMouseDown', this.id)
 0
       this.uiStore.activeDragBox = this.id;
 
