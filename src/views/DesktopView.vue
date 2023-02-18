@@ -5,13 +5,6 @@
       <h1 class="text-red-600">{{item}}</h1>
     </DragBox>
 
-<!--    <DragBox id="test-2">-->
-<!--      <h1 class="text-red-600">Test 2</h1>-->
-<!--    </DragBox>-->
-<!--    <DragBox id="test-3">-->
-<!--      <h1 class="text-red-600">Test 3</h1>-->
-<!--    </DragBox>-->
-
 
   </div>
 </template>
@@ -22,12 +15,26 @@ import { useUIStore } from '@/stores/ui';
 import { mapStores } from 'pinia';
 export default {
   name: 'DesktopView',
+  // data() {
+  //   return {
+  //     setItems: localStorage.getItem('boxesOnScreen')
+  //   };
+  // },
   components: {
     DragBox,
   },
   computed: {
     ...mapStores(useUIStore),
     setItems() {
+      // let localBoxItems = localStorage.getItem('boxesOnScreen')
+      // let stateBoxItems = this.uiStore.boxesOnScreen
+      //
+      // if (stateBoxItems.length) {
+      //   return localBoxItems
+      // }
+      // else {
+      //   return this.uiStore.boxesOnScreen
+      // }
       return this.uiStore.boxesOnScreen
     }
   },

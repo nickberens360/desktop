@@ -13,8 +13,8 @@ export const useUIStore = defineStore('ui', {
 
   }),
   actions: {
-    incrementTopZIndex() {
-      this.topZIndex++
+    setBoxesOnScreen(boxes) {
+      this.boxesOnScreen = boxes
     }
   }
 

@@ -34,7 +34,8 @@ export default {
   mounted() {
     this.x = +localStorage.getItem(`${this.id}-x`) || 0
     this.y = +localStorage.getItem(`${this.id}-y`) || 0
-    // this.uiStore.boxesOnScreen.push(this.id)
+    // this.uiStore.boxesOnScreen = localStorage.getItem('boxesOnScreen');
+
     this.$refs[this.id].addEventListener("mousedown", this.handleMouseDown);
   },
   computed: {
@@ -53,20 +54,19 @@ export default {
       this.uiStore.activeDragBox = this.id;
 
       if (this.isActive) {
-        // this.zIndex = this.zIndex ++
-        //move array item to end
         let boxIndex = this.uiStore.boxesOnScreen.indexOf(this.id)
         console.log('boxIndex', boxIndex)
         this.uiStore.boxesOnScreen.push(this.uiStore.boxesOnScreen.splice(boxIndex, 1)[0]);
       }
 
+      // let boxIndex = this.uiStore.boxesOnScreen.indexOf(this.id)
+      // this.uiStore.boxesOnScreen.push(this.uiStore.boxesOnScreen.splice(boxIndex, 1)[0]);
+
+      // set boxes on screen to localStorage
+
       const { clientX, clientY } = event;
       let currentX = clientX;
       let currentY = clientY;
-
-
-
-
 
       const handleMouseMove = event => {
         event.preventDefault();
@@ -77,6 +77,8 @@ export default {
         currentY = clientY;
         localStorage.setItem(`${this.id}-x`, this.x);
         localStorage.setItem(`${this.id}-y`, this.y);
+
+        localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
       };
 
       const handleMouseUp = event => {
