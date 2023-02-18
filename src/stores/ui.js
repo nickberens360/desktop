@@ -23,6 +23,7 @@ export const useUIStore = defineStore('ui', {
       }
       this.activeDragBox = item
       localStorage.setItem('activeDragBox', item)
+      // this.$router.push('/');
     }
   },
 })
