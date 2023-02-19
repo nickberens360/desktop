@@ -56,10 +56,6 @@ export default {
       this.uiStore.activeDragBox = this.id;
 
       this.uiStore.setScreenBoxes(this.uiStore.activeDragBox)
-      // if (this.isActive) {
-      //   let boxIndex = this.uiStore.boxesOnScreen.indexOf(this.id)
-      //   this.uiStore.boxesOnScreen.push(this.uiStore.boxesOnScreen.splice(boxIndex, 1)[0]);
-      // }
 
       const { clientX, clientY } = event;
       let currentX = clientX;

@@ -1,9 +1,21 @@
 <template>
   <div class="desktop">
 
-    <DragBox v-for="(item, index) in setItems" :id="item" :key="item" :initial-z-index="index">
-      <h1 class="text-red-600">{{item}}</h1>
-    </DragBox>
+    <DesktopScreen>
+      <template #header>
+        <DesktopSun />
+      </template>
+      <template #main>
+        <DragBox v-for="(item, index) in setItems" :id="item" :key="item" :initial-z-index="index">
+          <h1 class="text-red-600">{{item}}</h1>
+        </DragBox>
+      </template>
+      <template #footer>
+
+        <DesktopFooter />
+      </template>
+    </DesktopScreen>
+
 
 
   </div>
@@ -13,15 +25,21 @@
 import DragBox from '../components/DragBox.vue';
 import { useUIStore } from '@/stores/ui';
 import { mapStores } from 'pinia';
+import DesktopScreen from '@/components/DesktopScreen.vue';
+import DesktopSun from '@/components/DesktopSun.vue';
+import DesktopFooter from '@/components/DesktopFooter.vue';
 export default {
   name: 'DesktopView',
+  components: {
+    DesktopFooter,
+    DesktopSun,
+    DesktopScreen,
+    DragBox,
+  },
   data() {
     return {
       setItems: null
     };
-  },
-  components: {
-    DragBox,
   },
   computed: {
     ...mapStores(useUIStore),
