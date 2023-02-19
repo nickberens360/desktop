@@ -1,98 +1,58 @@
 <template>
-  <div>
-    <div class="wrapper" style="text-align: right">
+  <div class="desktop">
 
-      <button @click.stop="addItem('test-1')" class="p-2 pr-6">Test 1</button>
-      <button @click.stop="addItem('test-2')" class="p-2 pr-6">Test 2</button>
-      <button @click.stop="addItem('test-3')" class="p-2 pr-6">Test 3</button>
+    <DesktopScreen>
+      <template #header>
+        <DesktopSun />
+      </template>
+      <template #main>
+        <DragBox v-for="(item, index) in setItems" :id="item" :key="item" :initial-z-index="index">
+          <h1 class="text-red-600">{{item}}</h1>
+        </DragBox>
+      </template>
+      <template #footer>
+        <DesktopFooter />
+      </template>
+    </DesktopScreen>
 
-    </div>
+
+
   </div>
-  <RouterView />
 </template>
+
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import DragBox from '@/components/DragBox.vue';
 import { useUIStore } from '@/stores/ui';
 import { mapStores } from 'pinia';
+import DesktopScreen from '@/components/DesktopScreen.vue';
+import DesktopSun from '@/components/DesktopSun.vue';
+import DesktopFooter from '@/components/DesktopFooter.vue';
 export default {
-  name: 'App',
+  name: 'DesktopView',
   components: {
-    RouterLink,
-    RouterView,
+    DesktopFooter,
+    DesktopSun,
+    DesktopScreen,
+    DragBox,
+  },
+  data() {
+    return {
+      setItems: null
+    };
   },
   computed: {
     ...mapStores(useUIStore),
   },
-
-  methods: {
-    addItem(item) {
-      this.uiStore.setScreenBoxes(item)
+  mounted() {
+    let localBoxItems = JSON.parse(localStorage.getItem('boxesOnScreen'))
+    let stateBoxItems = this.uiStore.boxesOnScreen
+    if (localBoxItems) {
+      this.uiStore.boxesOnScreen = localBoxItems
+      this.setItems = localBoxItems
+    } else {
+      this.setItems = stateBoxItems
     }
-  },
-}
-
-
+    console.log('localBoxItems', localBoxItems)
+  }
+};
 </script>
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>

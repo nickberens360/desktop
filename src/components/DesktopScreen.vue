@@ -58,6 +58,11 @@ export default {
   border-radius: 85% 50% 0 0;
 }
 
+.desktop-content {
+  border: 1px solid red;
+  position: relative;
+}
+
 
 .desktop-item-container {
   position: relative;

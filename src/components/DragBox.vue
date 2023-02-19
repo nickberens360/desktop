@@ -1,11 +1,11 @@
 <template>
-  <div :id="id" :class="{'is-active': isActive}" class="drag-box cursor-grab p-2 px8 bg-gray-200" :ref="id" :style="{ left: x + 'px', top: y + 'px' }">
-    <slot />
-    Active Box: {{uiStore.activeDragBox}}<br>
-    isActive: {{isActive}}<br>
-    z-index: {{setZIndex}}<br>
-    Boxes on screen: <br>
-    <pre>{{uiStore.boxesOnScreen}}</pre>
+  <div :id="id" :class="{'is-active': isActive}" class="drag-box cursor-grab" :ref="id" :style="{ left: x + 'px', top: y + 'px' }" >
+    <slot name="default" />
+    <!--    Active Box: {{uiStore.activeDragBox}}<br>-->
+<!--    isActive: {{isActive}}<br>-->
+<!--    z-index: {{setZIndex}}<br>-->
+<!--    Boxes on screen: <br>-->
+<!--    <pre>{{uiStore.boxesOnScreen}}</pre>-->
   </div>
 </template>
 
@@ -22,7 +22,12 @@ export default {
     initialZIndex: {
       type: Number,
       default: 999
-    }
+    },
+    handle: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -30,7 +35,7 @@ export default {
       y: 0,
     };
   },
-  mounted() {
+  async mounted() {
     this.x = +localStorage.getItem(`${this.id}-x`) || 0
     this.y = +localStorage.getItem(`${this.id}-y`) || 0
     if (localStorage.getItem('activeDragBox')){
@@ -38,7 +43,7 @@ export default {
     } else {
       this.uiStore.activeDragBox = this.id;
     }
-    // localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
+
     this.$refs[this.id].addEventListener("mousedown", this.handleMouseDown);
   },
   computed: {
