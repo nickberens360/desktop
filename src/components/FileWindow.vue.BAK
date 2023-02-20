@@ -1,51 +1,55 @@
 <template>
-  <div class="file-window-container absolute">
-    <DragBox class="file-window__drag-box" :id="id" :handle="`handle-${id}`" :initial-z-index="initialZIndex">
-
-        <div
-          :id="id"
-          :ref="id"
-          :class="`file-window rounded-3xl rounded-br draggable resizeable persist-active-z-index-class`"
-        >
-          <div class="px-4 py-2 cursor-grab flex items-center justify-between" style="border-bottom: 1px solid #414141;">
-              <div>
-                <button
-                  class="file-window__control bg-red-400 ml-1.5"
-                  type="button"
-                />
-                <button
-                  class="file-window__control bg-yellow-400 ml-1.5"
-                  style=""
-                />
-                <button
-                  class="file-window__control bg-green-400 ml-1.5"
-                  style=""
-                />
-              </div>
-            </div>
-          <slot name="file-window-content">
-            <div class="file-window__main flex h-full flex">
-              <div class="file-window__sidebar px-4 py-2">
-                sidebar
-              </div>
-              <div class="px-4 py-2">
-                <h1>Hello</h1>
-      <!--          <component :is="contentComponent"></component>-->
-              </div>
-            </div>
-
-          </slot>
+  <div
+    :id="id"
+    :ref="id"
+    class="file-window rounded-3xl rounded-br"
+    :class="{'is-active': isActive}"
+  >
+    <div
+      :id="`handle-${id}`"
+      :ref="`handle-${id}`"
+      class="px-4 py-2 cursor-grab flex items-center justify-between"
+      style="border-bottom: 1px solid #414141;"
+    >
+      <div>
+        <button
+          class="file-window__control bg-red-400 ml-1.5"
+          type="button"
+        />
+        <button
+          class="file-window__control bg-yellow-400 ml-1.5"
+          style=""
+        />
+        <button
+          class="file-window__control bg-green-400 ml-1.5"
+          style=""
+        />
+      </div>
+    </div>
+    <slot name="file-window-content">
+      <div class="file-window__main flex h-full">
+        <div class="file-window__sidebar px-4 py-2">
+          sidebar
         </div>
-
-    </DragBox>
+        <div class="file-window__content px-4 py-2">
+          This item: {{id}}<br>
+          Active Box: {{uiStore.activeDragBox}}<br>
+          isActive: {{isActive}}<br>
+          Boxes on screen: <br>
+          <pre>{{uiStore.boxesOnScreen}}</pre>
+        </div>
+      </div>
+    </slot>
   </div>
+
 </template>
 
 <script>
-import DragBox from '@/components/DragBox.vue';
+import { useUIStore } from '@/stores/ui';
+import { mapStores } from 'pinia';
 export default {
   name: 'FileWindow',
-  components: {DragBox},
+
   props: {
     id: {
       type: String,
@@ -57,39 +61,53 @@ export default {
       required: false,
       default: null,
     },
-    initialZIndex: {
-      type: Number,
-      required: true,
-      // default: 0,
-    },
     // targetWindow: {
     //   type: Object,
     //   required: false,
     //   default: null,
     // },
   },
+  computed: {
+    ...mapStores(useUIStore),
+    isActive() {
+      return this.uiStore.activeDragBox === this.id;
+    },
+  },
+  // data() {
+  //   return {
+  //     handleRef: null
+  //   };
+  // },
+  // computed: {
+  //   handleRef() {
+  //     console.log('handleRef', this.$refs[`handle-${this.id}`])
+  //     return this.$refs[`handle-${this.id}`]
+  //   },
+  // },
+  // mounted() {
+  //   this.handleRef = this.$refs[`handle-${this.id}`]
+  // }
+
 };
 </script>
 
 <style scoped>
 
 
-
-.file-window-container {
-  border: 1px solid red;
-  max-width: 90vw;
-  min-width: 620px;
-  max-height: 85vh;
-  min-height: 320px;
-}
+/*.file-window-container {*/
+/*  border: 1px solid red;*/
+/*  max-width: 90vw;*/
+/*  min-width: 620px;*/
+/*  max-height: 85vh;*/
+/*  min-height: 320px;*/
+/*}*/
 .file-window {
   /*position: absolute;*/
   /*margin: auto;*/
-
   resize: both;
   overflow: auto;
-  width: 100%;
-  height: 100%;
+  /*width: 100%;*/
+  /*height: 100%;*/
   max-width: 90vw;
   min-width: 620px;
   max-height: 85vh;
@@ -97,8 +115,9 @@ export default {
   background-color: #f1ebde;
   border: 1px solid #414141;
 }
-.file-window.active-window {
-  box-shadow: 10px 10px 2px 0 rgba(0,0,0,0.65);
+
+.file-window.is-active {
+  box-shadow: 10px 10px 2px 0 rgba(0, 0, 0, 0.65);
 }
 
 .file-window__control {
@@ -108,8 +127,11 @@ export default {
   border: 1px solid #414141;
 }
 
+.file-window__content {
+  border-left: 1px solid #414141;
+}
+
 .file-window__sidebar {
-  border-right: 1px solid #414141;
   height: 100%;
   width: 100%;
   flex: 1 0 155px;

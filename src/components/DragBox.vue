@@ -1,19 +1,31 @@
 <template>
-  <div :id="id" :class="{'is-active': isActive}" class="drag-box cursor-grab" :ref="id" :style="{ left: x + 'px', top: y + 'px' }" >
-    <slot name="default" />
-    <!--    Active Box: {{uiStore.activeDragBox}}<br>-->
-<!--    isActive: {{isActive}}<br>-->
-<!--    z-index: {{setZIndex}}<br>-->
-<!--    Boxes on screen: <br>-->
-<!--    <pre>{{uiStore.boxesOnScreen}}</pre>-->
-  </div>
+    <div
+      :id="id"
+      :class="{'is-active': isActive}"
+      class="drag-box cursor-grab"
+      :ref="id"
+      :style="{ left: x + 'px', top: y + 'px' }"
+      @click.stop="handleClick()"
+    >
+      <div
+        class="drag-box__handle"
+        :id="`handle-${id}`"
+        :ref="`handle-${id}`"
+      >
+        <slot name="handle"/>
+      </div>
+      <slot name="default"/>
+      <slot name="footer"/>
+
+    </div>
 </template>
 
 <script>
-import { useUIStore } from '@/stores/ui';
-import { mapStores } from 'pinia';
+import {useUIStore} from '@/stores/ui';
+import {mapStores} from 'pinia';
+
 export default {
-  name: "DragBox",
+  name: 'DragBox',
   props: {
     id: {
       type: String,
@@ -23,8 +35,13 @@ export default {
       type: Number,
       default: 999
     },
-    handle: {
-      type: Object,
+    useHandle: {
+      type: Boolean,
+      required: false,
+      default: null,
+    },
+    containerClass: {
+      type: String,
       required: false,
       default: null,
     },
@@ -36,15 +53,20 @@ export default {
     };
   },
   async mounted() {
-    this.x = +localStorage.getItem(`${this.id}-x`) || 0
-    this.y = +localStorage.getItem(`${this.id}-y`) || 0
-    if (localStorage.getItem('activeDragBox')){
+
+    this.x = +localStorage.getItem(`${this.id}-x`) || 0;
+    this.y = +localStorage.getItem(`${this.id}-y`) || 0;
+    if (localStorage.getItem('activeDragBox')) {
       this.uiStore.activeDragBox = localStorage.getItem('activeDragBox');
     } else {
       this.uiStore.activeDragBox = this.id;
     }
 
-    this.$refs[this.id].addEventListener("mousedown", this.handleMouseDown);
+    if (this.useHandle) {
+      this.$refs[`handle-${this.id}`].addEventListener('mousedown', this.handleMouseDown);
+    } else {
+      this.$refs[this.id].addEventListener('mousedown', this.handleMouseDown);
+    }
   },
   computed: {
     ...mapStores(useUIStore),
@@ -52,52 +74,57 @@ export default {
       return this.uiStore.activeDragBox === this.id;
     },
     setZIndex() {
-      return this.initialZIndex + 999
-    }
+      return this.initialZIndex + 999;
+    },
   },
   methods: {
-    handleMouseDown(event) {
-0
+    setStoreData() {
       this.uiStore.activeDragBox = this.id;
+      this.uiStore.setScreenBoxes(this.uiStore.activeDragBox);
+    },
+    handleClick() {
+      console.log('click');
+      this.setStoreData();
+    },
+    handleMouseDown(event) {
+      event.preventDefault();
+      this.setStoreData();
+      // this.uiStore.activeDragBox = this.id;
+      // this.uiStore.setScreenBoxes(this.uiStore.activeDragBox);
 
-      this.uiStore.setScreenBoxes(this.uiStore.activeDragBox)
-
-      const { clientX, clientY } = event;
+      const {clientX, clientY} = event;
       let currentX = clientX;
       let currentY = clientY;
 
       const handleMouseMove = event => {
         event.preventDefault();
-        const { clientX, clientY } = event;
+        const {clientX, clientY} = event;
         this.x += clientX - currentX;
         this.y += clientY - currentY;
         currentX = clientX;
         currentY = clientY;
         localStorage.setItem(`${this.id}-x`, this.x);
         localStorage.setItem(`${this.id}-y`, this.y);
-        localStorage.setItem('activeDragBox', this.id)
+        localStorage.setItem('activeDragBox', this.id);
       };
 
       const handleMouseUp = () => {
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen))
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
+        localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen));
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
       };
 
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
     }
   }
 };
 </script>
 
 <style>
+
 .drag-box {
   position: absolute;
-  border: 1px solid #000;
   z-index: v-bind(setZIndex);
-}
-.is-active.drag-box {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
 }
 </style>
