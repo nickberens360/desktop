@@ -59,7 +59,6 @@ export default {
 }
 
 .desktop-content {
-  border: 1px solid red;
   position: relative;
 }
 
