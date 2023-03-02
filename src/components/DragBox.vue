@@ -78,19 +78,12 @@ export default {
     },
   },
   methods: {
-    setStoreData() {
-      this.uiStore.activeDragBox = this.id;
-      this.uiStore.setScreenBoxes(this.uiStore.activeDragBox);
-    },
     handleClick() {
-      console.log('click');
-      this.setStoreData();
+      this.$emit('drag-box-clicked');
     },
     handleMouseDown(event) {
       event.preventDefault();
-      this.setStoreData();
-      // this.uiStore.activeDragBox = this.id;
-      // this.uiStore.setScreenBoxes(this.uiStore.activeDragBox);
+      this.$emit('drag-box-mousedown');
 
       const {clientX, clientY} = event;
       let currentX = clientX;
@@ -109,7 +102,7 @@ export default {
       };
 
       const handleMouseUp = () => {
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen));
+        this.$emit('drag-box-mouseup');
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };

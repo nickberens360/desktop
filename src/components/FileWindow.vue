@@ -6,6 +6,9 @@
       :id="id"
       use-handle
       :initial-z-index="initialZIndex"
+      @drag-box-clicked="(handleDragBoxClicked)"
+      @drag-box-mousedown="(handleDragBoxMouseDown)"
+      @drag-box-mouseup="(handleDragBoxMouseUp)"
     >
       <template #handle>
         <FileWindowHeader :title="title"/>
@@ -52,6 +55,21 @@ export default {
     ...mapStores(useUIStore),
     isActive() {
       return this.uiStore.activeDragBox === this.id;
+    },
+  },
+  methods: {
+    setStoreData() {
+      this.uiStore.activeDragBox = this.id;
+      this.uiStore.setScreenBoxes(this.uiStore.activeDragBox);
+    },
+    handleDragBoxClicked() {
+      this.setStoreData();
+    },
+    handleDragBoxMouseDown() {
+      this.setStoreData();
+    },
+    handleDragBoxMouseUp() {
+      localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen));
     },
   },
 
