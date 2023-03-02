@@ -10,11 +10,6 @@
           :initial-z-index="999"
           label="About"
         />
-        <DesktopItem
-          id="projectsItem"
-          :initial-z-index="999"
-          label="Projects"
-        />
 
       </template>
 
@@ -37,7 +32,6 @@
 </template>
 
 <script>
-// import DragBox from '@/components/DragBox.vue';
 import {useUIStore} from '@/stores/ui';
 import {mapStores} from 'pinia';
 import DesktopScreen from '@/components/DesktopScreen.vue';
@@ -45,7 +39,6 @@ import DesktopSun from '@/components/DesktopSun.vue';
 import DesktopFooter from '@/components/DesktopFooter.vue';
 import FileWindow from '@/components/FileWindow.vue';
 import DesktopItem from '@/components/DesktopItem.vue';
-// import DragBox from '@/components/DragBox.vue';
 export default {
   name: 'DesktopView',
   components: {
