@@ -5,11 +5,11 @@
     </div>
     <div class="file-window__content px-4 py-2">
       content
-<!--      This item: {{id}}<br>
-      Active Box: {{uiStore.activeDragBox}}<br>
-      isActive: {{isActive}}<br>
-      Boxes on screen: <br>
-      <pre>{{uiStore.boxesOnScreen}}</pre>-->
+<!--      This item: {{id}}<br>-->
+<!--      Active Box: {{uiStore.activeDragBox}}<br>-->
+<!--      isActive: {{isActive}}<br>-->
+<!--      Boxes on screen: <br>-->
+<!--      <pre>{{uiStore.boxesOnScreen}}</pre>-->
     </div>
   </div>
 </template>

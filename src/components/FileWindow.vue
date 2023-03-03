@@ -8,13 +8,24 @@
       :initial-z-index="initialZIndex"
       @drag-box-clicked="(handleDragBoxClicked)"
       @drag-box-mousedown="(handleDragBoxMouseDown)"
-      @drag-box-mouseup="(handleDragBoxMouseUp)"
     >
+      <!--      @drag-box-mouseup="(handleDragBoxMouseUp)"-->
       <template #handle>
-        <FileWindowHeader :title="title"/>
+        <FileWindowHeader
+          :id="id"
+          :title="title"
+          @close-window="handleCloseWindow($event)"
+        />
       </template>
       <template #default>
-        <FileWindowContent/>
+        <div class="file-window__main flex h-full">
+          <div class="file-window__sidebar px-4 py-2">
+            sidebar
+          </div>
+          <div class="file-window__content px-4 py-2">
+            <component :is="contentComponent"></component>
+          </div>
+        </div>
       </template>
 
     </DragBox>
@@ -27,20 +38,18 @@ import {mapStores} from 'pinia';
 import FileWindowHeader from '@/components/FileWindow/FileWindowHeader.vue';
 import FileWindowContent from '@/components/FileWindow/FileWindowContent.vue';
 import DragBox from '@/components/DragBox.vue';
+import ProjectsContent from '@/components/content/ProjectsContent.vue';
+import AboutContent from '@/components/content/AboutContent.vue';
+
 
 export default {
   name: 'FileWindow',
-  components: {FileWindowContent, FileWindowHeader, DragBox},
+  components: {ProjectsContent, AboutContent, FileWindowContent, FileWindowHeader, DragBox},
   props: {
     id: {
       type: String,
       required: true,
       default: 'fileWindow',
-    },
-    contentComponent: {
-      type: String,
-      required: false,
-      default: null,
     },
     initialZIndex: {
       type: Number,
@@ -51,22 +60,50 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      closeBtnTriggered: false,
+    };
+  },
   computed: {
     ...mapStores(useUIStore),
     isActive() {
       return this.uiStore.activeDragBox === this.id;
     },
+    contentComponent() {
+      return this.capitalize(this.id) + 'Content';
+    },
   },
   methods: {
+    capitalize(s) {
+      return s[0].toUpperCase() + s.slice(1);
+    },
     setStoreData() {
       this.uiStore.activeDragBox = this.id;
       this.uiStore.setScreenBoxes(this.uiStore.activeDragBox);
     },
-    handleDragBoxClicked() {
-      this.setStoreData();
+    handleCloseWindow($event) {
+      return $event;
     },
-    handleDragBoxMouseDown() {
-      this.setStoreData();
+    async handleDragBoxClicked() {
+      await this.handleCloseWindow();
+      console.log(this.handleCloseWindow());
+      if (this.handleCloseWindow() !== undefined) {
+        console.log('closeBtnTriggered');
+      } else {
+        this.setStoreData();
+        this.$router.push({name: 'window', params: {id: this.id}});
+      }
+    },
+    async handleDragBoxMouseDown() {
+      await this.handleCloseWindow();
+      console.log(this.handleCloseWindow());
+      if (this.handleCloseWindow()) {
+        console.log('closeBtnTriggered');
+      } else {
+        this.setStoreData();
+        this.$router.push({name: 'window', params: {id: this.id}});
+      }
     },
     handleDragBoxMouseUp() {
       localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen));
@@ -93,7 +130,7 @@ export default {
   resize: both;
   overflow: auto;
   /*width: 100%;*/
-  /*height: 100%;*/
+  height: 100%;
   max-width: 90vw;
   min-width: 620px;
   max-height: 85vh;
@@ -104,6 +141,18 @@ export default {
 
 .file-window.is-active {
   box-shadow: 10px 10px 2px 0 rgba(0, 0, 0, 0.65);
+}
+
+.file-window__content {
+  border-left: 1px solid #414141;
+}
+
+.file-window__sidebar {
+  height: 100%;
+  width: 100%;
+  flex: 1 0 155px;
+  max-width: 155px;
+  min-width: 140px;
 }
 
 

@@ -1,18 +1,15 @@
 <template>
 
-  <div
-      class=" mb-4 relative text-center"
-      style="width: 90px; height: 120px;"
+  <router-link
+    class=" mb-4 relative text-center"
+    style="width: 90px; height: 120px;"
+    :to="to"
   >
-    <DragBox
-      :class="{'is-active': isActive}"
-      :id="id"
-      :initial-z-index="initialZIndex"
-    >
+
     <div
-        :id="id"
-        :ref="id"
-        class="desktop-item draggable resizeable absolute cursor-grab persist-active-z-index-class"
+      :id="id"
+      :ref="id"
+      class="desktop-item draggable resizeable absolute cursor-grab persist-active-z-index-class"
     >
       <div>
         <div class="folder-icon">
@@ -26,20 +23,20 @@
         </slot>
       </div>
     </div>
-    </DragBox>
-  </div>
+
+  </router-link>
 </template>
 
 <script>
-import DragBox from '@/components/DragBox.vue';
+// import DragBox from '@/components/DragBox.vue';
 import {mapStores} from 'pinia';
 import {useUIStore} from '@/stores/ui';
 
 export default {
   name: "DesktopItem",
-  components: {
-    DragBox,
-  },
+  // components: {
+  //   DragBox,
+  // },
   props: {
     id: {
       type: String,

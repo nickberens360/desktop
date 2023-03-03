@@ -5,7 +5,7 @@
       class="drag-box cursor-grab"
       :ref="id"
       :style="{ left: x + 'px', top: y + 'px' }"
-      @click.stop="handleClick()"
+      @click="handleClick()"
     >
       <div
         class="drag-box__handle"

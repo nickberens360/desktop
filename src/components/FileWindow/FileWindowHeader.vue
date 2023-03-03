@@ -8,6 +8,7 @@
         class="file-window__control bg-red-400 ml-1.5"
         type="button"
       />
+<!--        @click.stop="closeWindow(id)"-->
       <button
         class="file-window__control bg-yellow-400 ml-1.5"
         type="button"
@@ -22,12 +23,39 @@
 </template>
 
 <script>
+import {mapStores} from 'pinia';
+import {useUIStore} from '@/stores/ui';
+import FileWindowHeaderButton from '@/components/FileWindow/FileWindowHeaderButton.vue';
+
 export default {
   name: 'FileWindowHeader',
+  components: {FileWindowHeaderButton},
   props: {
+    id: {
+      type: String,
+      required: true,
+      default: 'fileWindow',
+    },
     title: {
       type: String,
       default: 'File Window',
+    },
+  },
+  computed: {
+    ...mapStores(useUIStore),
+  },
+  methods: {
+    closeWindow(id) {
+      console.log('closeWindow', id)
+      // this.uiStore.removeFileWindow(id)
+      // const activeWindow = this.uiStore.activeDragBox
+      // const activeWindows = this.uiStore.boxesOnScreen
+      // console.log(activeWindows.length > 0)
+      // if (activeWindows.length > 0) {
+      //   this.$router.push(`/desktop/${activeWindow}`)
+      // } else {
+      //   this.$router.push(`/`)
+      // }
     },
   },
 };

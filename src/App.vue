@@ -6,22 +6,33 @@
       </template>
       <template #side>
         <DesktopItem
+          id="projectsItem"
+          :to="`/window/projects`"
+          :initial-z-index="999"
+          label="Projects"
+        />
+        <DesktopItem
           id="aboutItem"
+          :to="`/window/about`"
           :initial-z-index="999"
           label="About"
         />
 
+
       </template>
 
       <template #main>
-        <FileWindow
-          v-for="(item, index) in setItems"
-          :id="item"
-          :key="item"
-          :initial-z-index="index"
-          container-class="file-window-container"
-          :title="item"
-        />
+        <router-view :key="$route.path" />
+
+
+        <!--        <FileWindow-->
+<!--          v-for="(item, index) in setItems"-->
+<!--          :id="item"-->
+<!--          :key="item"-->
+<!--          :initial-z-index="index"-->
+<!--          container-class="file-window-container"-->
+<!--          :title="item"-->
+<!--        />-->
 
       </template>
       <template #footer>

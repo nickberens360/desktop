@@ -10,13 +10,12 @@ export const useUIStore = defineStore('ui', {
   actions: {
     setScreenBoxes(item) {
       // console.log('Router', this.$router)
-      // console.log('setScreenBoxes', item)
+      console.log('setScreenBoxes', item)
       if (!this.boxesOnScreen.includes(item)) {
         this.boxesOnScreen.push(item)
         localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
       }
       else {
-        console.log('removing item')
         let boxIndex = this.boxesOnScreen.indexOf(item)
         this.boxesOnScreen.push(this.boxesOnScreen.splice(boxIndex, 1)[0]);
         localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
@@ -24,6 +23,24 @@ export const useUIStore = defineStore('ui', {
       this.activeDragBox = item
       localStorage.setItem('activeDragBox', item)
       // this.$router.push('/');
-    }
+    },
+
+    // remove file window from array
+    removeFileWindow(id) {
+      console.log('removeFileWindow', 'id', id)
+      this.boxesOnScreen = this.boxesOnScreen.filter((boxesOnScreen) => boxesOnScreen.id !== id)
+
+      if (this.boxesOnScreen.length > 0) {
+        this.activeDragBox = this.boxesOnScreen[this.boxesOnScreen.length - 1].id
+        console.log('activeID', this.activeDragBox)
+      } else {
+        this.activeDragBox = null
+        this.boxesOnScreen = []
+      }
+    },
+
+
+
   },
+
 })
