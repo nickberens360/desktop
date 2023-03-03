@@ -7,8 +7,8 @@
       <button
         class="file-window__control bg-red-400 ml-1.5"
         type="button"
+        @click.stop="closeWindow(id)"
       />
-<!--        @click.stop="closeWindow(id)"-->
       <button
         class="file-window__control bg-yellow-400 ml-1.5"
         type="button"
@@ -47,15 +47,16 @@ export default {
   methods: {
     closeWindow(id) {
       console.log('closeWindow', id)
-      // this.uiStore.removeFileWindow(id)
-      // const activeWindow = this.uiStore.activeDragBox
-      // const activeWindows = this.uiStore.boxesOnScreen
-      // console.log(activeWindows.length > 0)
-      // if (activeWindows.length > 0) {
-      //   this.$router.push(`/desktop/${activeWindow}`)
-      // } else {
-      //   this.$router.push(`/`)
-      // }
+      this.uiStore.removeFileWindow(id)
+      const activeWindow = this.uiStore.activeDragBox
+      const activeWindows = this.uiStore.boxesOnScreen
+      console.log(activeWindows.length > 0)
+      if (activeWindows.length > 0) {
+
+        this.$router.push(`/window/${activeWindow}`)
+      } else {
+        this.$router.push(`/`)
+      }
     },
   },
 };

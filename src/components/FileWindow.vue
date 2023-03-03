@@ -8,13 +8,13 @@
       :initial-z-index="initialZIndex"
       @drag-box-clicked="(handleDragBoxClicked)"
       @drag-box-mousedown="(handleDragBoxMouseDown)"
+      @drag-box-mouseup="(handleDragBoxMouseUp)"
     >
-      <!--      @drag-box-mouseup="(handleDragBoxMouseUp)"-->
       <template #handle>
         <FileWindowHeader
           :id="id"
           :title="title"
-          @close-window="handleCloseWindow($event)"
+          @close-window="handleCloseWindow"
         />
       </template>
       <template #default>
@@ -63,15 +63,15 @@ export default {
   data() {
     return {
       closeBtnTriggered: false,
-    };
+    }
   },
   computed: {
     ...mapStores(useUIStore),
     isActive() {
       return this.uiStore.activeDragBox === this.id;
     },
-    contentComponent() {
-      return this.capitalize(this.id) + 'Content';
+    contentComponent () {
+      return  this.capitalize(this.id)+'Content';
     },
   },
   methods: {
@@ -82,28 +82,30 @@ export default {
       this.uiStore.activeDragBox = this.id;
       this.uiStore.setScreenBoxes(this.uiStore.activeDragBox);
     },
-    handleCloseWindow($event) {
-      return $event;
+    handleCloseWindow() {
+      console.log('handleCloseWindow');
+      // this.uiStore.removeFileWindow(this.id)
+      // const activeWindow = this.uiStore.activeDragBox
+      // const activeWindows = this.uiStore.boxesOnScreen
+      // console.log(activeWindows.length > 0)
+      // if (activeWindows.length > 0) {
+      //   this.$router.push(`/desktop/${activeWindow}`)
+      // } else {
+      //   this.$router.push(`/`)
+      // }
     },
-    async handleDragBoxClicked() {
-      await this.handleCloseWindow();
-      console.log(this.handleCloseWindow());
-      if (this.handleCloseWindow() !== undefined) {
-        console.log('closeBtnTriggered');
-      } else {
-        this.setStoreData();
-        this.$router.push({name: 'window', params: {id: this.id}});
-      }
+    handleDragBoxClicked() {
+      // await this.handleCloseWindow()
+      // if (this.closeBtnTriggered) {
+      //   console.log('closeBtnTriggered');
+      //   return;
+      // }
+      // console.log('handleDragBoxClicked');
+      this.setStoreData();
+      this.$router.push({name: 'window', params: {id: this.id}});
     },
-    async handleDragBoxMouseDown() {
-      await this.handleCloseWindow();
-      console.log(this.handleCloseWindow());
-      if (this.handleCloseWindow()) {
-        console.log('closeBtnTriggered');
-      } else {
-        this.setStoreData();
-        this.$router.push({name: 'window', params: {id: this.id}});
-      }
+    handleDragBoxMouseDown() {
+      this.setStoreData();
     },
     handleDragBoxMouseUp() {
       localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen));
