@@ -26,19 +26,26 @@ export const useUIStore = defineStore('ui', {
     },
 
     // remove file window from array
-    removeFileWindow(id) {
-      console.log('removeFileWindow', 'id', id)
-      this.boxesOnScreen = this.boxesOnScreen.filter((boxesOnScreen) => boxesOnScreen.id !== id)
-      console.log('boxesOnScreen', this.boxesOnScreen)
-      console.log('activeDragBox', this.activeDragBox)
-      console.log('length',this.boxesOnScreen.length)
-      // if (this.boxesOnScreen.length > 0) {
-      //   this.activeDragBox = this.boxesOnScreen[this.boxesOnScreen.length - 1].id
-      //   console.log('activeID', this.activeDragBox)
-      // } else {
-      //   this.activeDragBox = null
-      //   this.boxesOnScreen = []
-      // }
+    removeFileWindow(item) {
+
+      console.log('length', this.boxesOnScreen.length)
+
+      if (this.boxesOnScreen.length > 1) {
+        let boxIndex = this.boxesOnScreen.indexOf(item)
+        this.boxesOnScreen.splice(boxIndex, 1)
+        this.activeDragBox = this.boxesOnScreen.slice(-1)[0]
+        this.$router.push('/window/' + this.activeDragBox);
+        localStorage.setItem('activeDragBox', this.activeDragBox)
+        localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
+      }
+      else {
+        this.boxesOnScreen = []
+        localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
+        this.$router.push('/');
+      }
+
+
+
     },
 
 
