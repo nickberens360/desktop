@@ -48,15 +48,15 @@ export default {
     closeWindow(id) {
       console.log('closeWindow', id)
       this.uiStore.removeFileWindow(id)
-      const activeWindow = this.uiStore.activeDragBox
-      const activeWindows = this.uiStore.boxesOnScreen
-      console.log(activeWindows.length > 0)
-      if (activeWindows.length > 0) {
-
-        this.$router.push(`/window/${activeWindow}`)
-      } else {
-        this.$router.push(`/`)
-      }
+      // const activeWindow = this.uiStore.activeDragBox
+      // const activeWindows = this.uiStore.boxesOnScreen
+      // console.log(activeWindows.length > 0)
+      // if (activeWindows.length > 0) {
+      //
+      //   this.$router.push(`/window/${activeWindow}`)
+      // } else {
+      //   this.$router.push(`/`)
+      // }
     },
   },
 };

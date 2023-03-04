@@ -6,6 +6,7 @@
       :ref="id"
       :style="{ left: x + 'px', top: y + 'px' }"
       @click="handleClick()"
+      @dragstart="handleDragStart"
     >
       <div
         class="drag-box__handle"
@@ -78,6 +79,9 @@ export default {
     },
   },
   methods: {
+    handleDragStart() {
+      console.log('handleDragStart');
+    },
     handleClick() {
       this.$emit('drag-box-clicked');
     },

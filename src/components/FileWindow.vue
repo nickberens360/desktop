@@ -108,7 +108,8 @@ export default {
       this.setStoreData();
     },
     handleDragBoxMouseUp() {
-      localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen));
+      console.log('handleDragBoxMouseUp');
+      // localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen));
     },
   },
 

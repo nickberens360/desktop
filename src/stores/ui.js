@@ -29,14 +29,16 @@ export const useUIStore = defineStore('ui', {
     removeFileWindow(id) {
       console.log('removeFileWindow', 'id', id)
       this.boxesOnScreen = this.boxesOnScreen.filter((boxesOnScreen) => boxesOnScreen.id !== id)
-
-      if (this.boxesOnScreen.length > 0) {
-        this.activeDragBox = this.boxesOnScreen[this.boxesOnScreen.length - 1].id
-        console.log('activeID', this.activeDragBox)
-      } else {
-        this.activeDragBox = null
-        this.boxesOnScreen = []
-      }
+      console.log('boxesOnScreen', this.boxesOnScreen)
+      console.log('activeDragBox', this.activeDragBox)
+      console.log('length',this.boxesOnScreen.length)
+      // if (this.boxesOnScreen.length > 0) {
+      //   this.activeDragBox = this.boxesOnScreen[this.boxesOnScreen.length - 1].id
+      //   console.log('activeID', this.activeDragBox)
+      // } else {
+      //   this.activeDragBox = null
+      //   this.boxesOnScreen = []
+      // }
     },
 
 
