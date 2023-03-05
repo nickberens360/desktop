@@ -28,8 +28,6 @@ export const useUIStore = defineStore('ui', {
     // remove file window from array
     removeFileWindow(item) {
 
-      console.log('length', this.boxesOnScreen.length)
-
       if (this.boxesOnScreen.length > 1) {
         let boxIndex = this.boxesOnScreen.indexOf(item)
         this.boxesOnScreen.splice(boxIndex, 1)
@@ -40,6 +38,7 @@ export const useUIStore = defineStore('ui', {
       }
       else {
         this.boxesOnScreen = []
+        this.activeDragBox = null
         localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
         this.$router.push('/');
       }
