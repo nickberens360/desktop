@@ -40,6 +40,7 @@ export const useUIStore = defineStore('ui', {
         this.boxesOnScreen = []
         this.activeDragBox = null
         localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
+        localStorage.setItem('activeDragBox', null)
         this.$router.push('/');
       }
 

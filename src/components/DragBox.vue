@@ -119,6 +119,9 @@ export default {
           width: ref.offsetWidth,
           height: ref.offsetHeight
         }
+        if (size.width === 0 && size.height === 0) {
+          return;
+        }
         localStorage.setItem(ref.id + '-width', ref.style.width = size.width + 'px');
         localStorage.setItem(ref.id + '-height', ref.style.height = size.height + 'px');
       }
