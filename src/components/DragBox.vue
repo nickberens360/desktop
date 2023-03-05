@@ -1,9 +1,9 @@
 <template>
     <div
       :id="id"
+      :ref="id"
       :class="{'is-active': isActive}"
       class="drag-box cursor-grab"
-      :ref="id"
       @click="handleClick()"
       v-on="{ mousedown: !useHandle ? handleMouseDown : null }"
     >
@@ -54,20 +54,11 @@ export default {
     };
   },
   async mounted() {
+    this.saveOnResized(this.$refs[this.id]);
 
     this.x = +localStorage.getItem(`${this.id}-x`) || 0;
     this.y = +localStorage.getItem(`${this.id}-y`) || 0;
-    if (localStorage.getItem('activeDragBox')) {
-      this.uiStore.activeDragBox = localStorage.getItem('activeDragBox');
-    } else {
-      this.uiStore.activeDragBox = this.id;
-    }
 
-    // if (this.useHandle) {
-    //   this.$refs[`handle-${this.id}`].addEventListener('mousedown', this.handleMouseDown);
-    // } else {
-    //   this.$refs[this.id].addEventListener('mousedown', this.handleMouseDown);
-    // }
   },
   computed: {
     ...mapStores(useUIStore),
@@ -119,6 +110,23 @@ export default {
 
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
+    },
+    saveOnResized(ref) {
+      new ResizeObserver(saveSaveToLocalStorage).observe(ref)
+
+      function saveSaveToLocalStorage() {
+        let size = {
+          width: ref.offsetWidth,
+          height: ref.offsetHeight
+        }
+        localStorage.setItem(ref.id + '-width', ref.style.width = size.width + 'px');
+        localStorage.setItem(ref.id + '-height', ref.style.height = size.height + 'px');
+      }
+      if (localStorage.getItem(ref.id + '-width' && ref.id + '-height')) {
+        ref.style.width = localStorage.getItem(ref.id + '-width')
+        ref.style.height = localStorage.getItem(ref.id + '-height')
+      }
+
     }
   }
 };
