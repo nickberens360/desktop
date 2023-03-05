@@ -4,14 +4,14 @@
       :class="{'is-active': isActive}"
       class="drag-box cursor-grab"
       :ref="id"
-      :style="{ left: x + 'px', top: y + 'px' }"
       @click="handleClick()"
-      @dragstart="handleDragStart"
+      v-on="{ mousedown: !useHandle ? handleMouseDown : null }"
     >
       <div
         class="drag-box__handle"
         :id="`handle-${id}`"
         :ref="`handle-${id}`"
+        v-on="{ mousedown: useHandle ? handleMouseDown : null }"
       >
         <slot name="handle"/>
       </div>
@@ -63,11 +63,11 @@ export default {
       this.uiStore.activeDragBox = this.id;
     }
 
-    if (this.useHandle) {
-      this.$refs[`handle-${this.id}`].addEventListener('mousedown', this.handleMouseDown);
-    } else {
-      this.$refs[this.id].addEventListener('mousedown', this.handleMouseDown);
-    }
+    // if (this.useHandle) {
+    //   this.$refs[`handle-${this.id}`].addEventListener('mousedown', this.handleMouseDown);
+    // } else {
+    //   this.$refs[this.id].addEventListener('mousedown', this.handleMouseDown);
+    // }
   },
   computed: {
     ...mapStores(useUIStore),
@@ -76,6 +76,12 @@ export default {
     },
     setZIndex() {
       return this.initialZIndex + 999;
+    },
+    setPositionsX() {
+      return this.x + 'px';
+    },
+    setPositionsY() {
+      return this.y + 'px';
     },
   },
   methods: {
@@ -123,5 +129,7 @@ export default {
 .drag-box {
   position: absolute;
   z-index: v-bind(setZIndex);
+  top: v-bind(setPositionsY);
+  left: v-bind(setPositionsX);
 }
 </style>
