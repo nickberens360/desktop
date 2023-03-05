@@ -24,16 +24,6 @@
       <template #main>
         <router-view :key="$route.path" />
 
-
-        <!--        <FileWindow-->
-        <!--          v-for="(item, index) in setItems"-->
-        <!--          :id="item"-->
-        <!--          :key="item"-->
-        <!--          :initial-z-index="index"-->
-        <!--          container-class="file-window-container"-->
-        <!--          :title="item"-->
-        <!--        />-->
-
       </template>
       <template #footer>
         <DesktopFooter/>

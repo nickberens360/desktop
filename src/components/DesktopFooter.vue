@@ -2,9 +2,9 @@
 <footer class="border-2 p-3">
   <nav>
     <button @click.stop="clearLocalStorage" class="border-2 inline-block py-1 px-3">Clear Local Storage</button>
-    <button @click.stop="addItem('test-1')"  class="border-2 inline-block py-1 px-3">Test 1</button>
-    <button @click.stop="addItem('test-2')"  class="border-2 inline-block py-1 px-3">Test 2</button>
-    <router-link to="/window/about" @click.stop="addItem('test-3')"  class="border-2 inline-block py-1 px-3">Test 3</router-link>
+<!--    <button @click.stop="addItem('test-1')"  class="border-2 inline-block py-1 px-3">Test 1</button>-->
+<!--    <button @click.stop="addItem('test-2')"  class="border-2 inline-block py-1 px-3">Test 2</button>-->
+<!--    <router-link to="/window/about" @click.stop="addItem('test-3')"  class="border-2 inline-block py-1 px-3">Test 3</router-link>-->
   </nav>
 </footer>
 </template>
@@ -20,9 +20,9 @@ export default {
       localStorage.clear();
       window.location.reload();
     },
-    addItem(item) {
-      this.uiStore.setScreenBoxes(item)
-    }
+    // addItem(item) {
+    //   this.uiStore.setScreenBoxes(item)
+    // }
   },
   computed: {
     ...mapStores(useUIStore),

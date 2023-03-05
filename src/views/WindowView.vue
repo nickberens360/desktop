@@ -1,5 +1,4 @@
 <template>
-  <div>
   <FileWindow
     v-for="(item, index) in setItems"
     :id="item"
@@ -8,7 +7,6 @@
     container-class="file-window-container"
     :title="item"
   />
-  </div>
 </template>
 
 <script>

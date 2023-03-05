@@ -1,42 +1,51 @@
 <template>
-
-  <router-link
-    class=" mb-4 relative text-center"
-    style="width: 90px; height: 120px;"
-    :to="to"
-  >
-
-    <div
+  <div class="relative" style="width: 90px; height: 150px;">
+    <DragBox
+      :class="{'is-active': isActive}"
+      class="file-window rounded-3xl rounded-br"
       :id="id"
-      :ref="id"
-      class="desktop-item draggable resizeable absolute cursor-grab persist-active-z-index-class"
+      :initial-z-index="initialZIndex"
     >
-      <div>
-        <div class="folder-icon">
-          <div class="folder-icon__back bg-gray-200"/>
-          <div class="folder-icon__front bg-white"/>
-        </div>
-        <slot name="label">
+<!--      @drag-box-clicked="(handleDragBoxClicked)"-->
+<!--      @drag-box-mousedown="(handleDragBoxMouseDown)"-->
+<!--      @drag-box-mouseup="(handleDragBoxMouseUp)"-->
+      <router-link
+        :to="to"
+      >
+
+        <div
+          :id="id"
+          :ref="id"
+          class="desktop-item draggable resizeable absolute cursor-grab persist-active-z-index-class"
+        >
+          <div>
+            <div class="folder-icon">
+              <div class="folder-icon__back bg-gray-200"/>
+              <div class="folder-icon__front bg-white"/>
+            </div>
+            <slot name="label">
           <span class="desktop-item__label block bg-blue-500 mt-1 rounded-xl text-white p-1 text-xs text text-center">{{
               id
             }}</span>
-        </slot>
-      </div>
-    </div>
+            </slot>
+          </div>
+        </div>
 
-  </router-link>
+      </router-link>
+    </DragBox>
+  </div>
 </template>
 
 <script>
-// import DragBox from '@/components/DragBox.vue';
+import DragBox from '@/components/DragBox.vue';
 import {mapStores} from 'pinia';
 import {useUIStore} from '@/stores/ui';
 
 export default {
-  name: "DesktopItem",
-  // components: {
-  //   DragBox,
-  // },
+  name: 'DesktopItem',
+  components: {
+    DragBox,
+  },
   props: {
     id: {
       type: String,
@@ -64,7 +73,7 @@ export default {
       font: {
         weight: '800',
       },
-    }
+    };
   },
   computed: {
     ...mapStores(useUIStore),
@@ -72,13 +81,12 @@ export default {
       return this.uiStore.activeDragBox === this.id;
     },
   },
-}
+};
 </script>
 
 <style scoped>
 
 .desktop-item {
-  /*background-color: #414141;*/
   border-radius: 10px;
   width: 100px;
   height: 115px;
@@ -87,9 +95,7 @@ export default {
   max-height: 115px;
   max-width: 100px;
   margin: auto auto 15px;
-  /*z-index: 1;*/
 
-  /*box-shadow: 7px 6px 2px 0 rgba(0,0,0,1);*/
 }
 
 .active-z-index .desktop-item__label {
@@ -140,7 +146,17 @@ export default {
   background: #f1ebde;
   transform: skew(27deg);
 }
-
+.folder-icon__front {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 85px;
+  border: 2px solid black;
+  transform: skewX(0deg);
+  transform-origin: bottom;
+  border-radius: 10px;
+}
 
 .folder-icon__front {
   position: absolute;
@@ -152,6 +168,5 @@ export default {
   transform: skewX(15deg);
   transform-origin: bottom;
   border-radius: 10px;
-
 }
 </style>60

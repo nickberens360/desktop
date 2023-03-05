@@ -128,16 +128,10 @@ export default {
 }
 
 .file-window {
-  /*position: absolute;*/
-  /*margin: auto;*/
   resize: both;
   overflow: auto;
-  /*width: 100%;*/
+  width: 100%;
   height: 100%;
-  max-width: 90vw;
-  min-width: 620px;
-  max-height: 85vh;
-  min-height: 320px;
   background-color: #f1ebde;
   border: 1px solid #414141;
 }

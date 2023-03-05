@@ -1,7 +1,7 @@
 <template>
   <div class="desktop flex flex-col justify-between h-screen">
     <div class="hills" />
-    <div class="w-full">
+    <div class="w-full desktop-header">
       <slot name="header"/>
     </div>
     <div class="w-full mb-auto flex p-4">
@@ -12,7 +12,7 @@
         <slot name="main"/>
       </div>
     </div>
-    <div class="w-full">
+    <div class="w-full desktop-footer">
       <slot name="footer"/>
     </div>
   </div>
@@ -31,6 +31,10 @@ export default {
   position: relative;
   @apply bg-gradient-to-t from-blue-500 to-blue-100;
   overflow: hidden;
+}
+
+.desktop-header {
+  z-index: 9999999;
 }
 
 .hills:after {
