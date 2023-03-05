@@ -1,6 +1,6 @@
 <template>
   <div
-    class="file-window-header px-4 py-2 cursor-grab flex items-center justify-between "
+    class="file-window-header px-4 py-2 cursor-grab flex items-center justify-between"
     style="border-bottom: 1px solid #414141;"
   >
     <div>
@@ -25,11 +25,9 @@
 <script>
 import {mapStores} from 'pinia';
 import {useUIStore} from '@/stores/ui';
-import FileWindowHeaderButton from '@/components/FileWindow/FileWindowHeaderButton.vue';
 
 export default {
   name: 'FileWindowHeader',
-  components: {FileWindowHeaderButton},
   props: {
     id: {
       type: String,
@@ -46,17 +44,7 @@ export default {
   },
   methods: {
     closeWindow(id) {
-      console.log('closeWindow', id)
       this.uiStore.removeFileWindow(id)
-      // const activeWindow = this.uiStore.activeDragBox
-      // const activeWindows = this.uiStore.boxesOnScreen
-      // console.log(activeWindows.length > 0)
-      // if (activeWindows.length > 0) {
-      //
-      //   this.$router.push(`/window/${activeWindow}`)
-      // } else {
-      //   this.$router.push(`/`)
-      // }
     },
   },
 };
