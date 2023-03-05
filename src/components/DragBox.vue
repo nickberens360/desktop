@@ -3,7 +3,7 @@
       :id="id"
       :ref="id"
       :class="{'is-active': isActive}"
-      class="drag-box cursor-grab"
+      class="drag-box"
       @click="handleClick()"
       v-on="{ mousedown: !useHandle ? handleMouseDown : null }"
     >

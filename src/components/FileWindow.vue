@@ -86,7 +86,7 @@ export default {
       console.log('handleCloseWindow');
       // this.uiStore.removeFileWindow(this.id)
       // const activeWindow = this.uiStore.activeDragBox
-      // const activeWindows = this.uiStore.boxesOnScreen
+      // const activeWindows = this.uiStore.windowsOnScreen
       // console.log(activeWindows.length > 0)
       // if (activeWindows.length > 0) {
       //   this.$router.push(`/desktop/${activeWindow}`)
@@ -109,7 +109,7 @@ export default {
     },
     handleDragBoxMouseUp() {
       console.log('handleDragBoxMouseUp');
-      // localStorage.setItem('boxesOnScreen', JSON.stringify(this.uiStore.boxesOnScreen));
+      // localStorage.setItem('windowsOnScreen', JSON.stringify(this.uiStore.windowsOnScreen));
     },
   },
 

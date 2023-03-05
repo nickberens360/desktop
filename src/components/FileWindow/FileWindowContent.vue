@@ -9,7 +9,7 @@
 <!--      Active Box: {{uiStore.activeDragBox}}<br>-->
 <!--      isActive: {{isActive}}<br>-->
 <!--      Boxes on screen: <br>-->
-<!--      <pre>{{uiStore.boxesOnScreen}}</pre>-->
+<!--      <pre>{{uiStore.windowsOnScreen}}</pre>-->
     </div>
   </div>
 </template>

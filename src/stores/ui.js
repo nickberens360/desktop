@@ -3,7 +3,8 @@ import {defineStore} from 'pinia'
 export const useUIStore = defineStore('ui', {
   state: () => ({
     activeDragBox: null,
-    boxesOnScreen: [],
+    windowsOnScreen: [],
+    minimizedBoxes: [],
     topZIndex: 999,
 
   }),
@@ -11,14 +12,14 @@ export const useUIStore = defineStore('ui', {
     setScreenBoxes(item) {
       // console.log('Router', this.$router)
       console.log('setScreenBoxes', item)
-      if (!this.boxesOnScreen.includes(item)) {
-        this.boxesOnScreen.push(item)
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
+      if (!this.windowsOnScreen.includes(item)) {
+        this.windowsOnScreen.push(item)
+        localStorage.setItem('windowsOnScreen', JSON.stringify(this.windowsOnScreen))
       }
       else {
-        let boxIndex = this.boxesOnScreen.indexOf(item)
-        this.boxesOnScreen.push(this.boxesOnScreen.splice(boxIndex, 1)[0]);
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
+        let boxIndex = this.windowsOnScreen.indexOf(item)
+        this.windowsOnScreen.push(this.windowsOnScreen.splice(boxIndex, 1)[0]);
+        localStorage.setItem('windowsOnScreen', JSON.stringify(this.windowsOnScreen))
       }
       this.activeDragBox = item
       localStorage.setItem('activeDragBox', item)
@@ -28,18 +29,18 @@ export const useUIStore = defineStore('ui', {
     // remove file window from array
     removeFileWindow(item) {
 
-      if (this.boxesOnScreen.length > 1) {
-        let boxIndex = this.boxesOnScreen.indexOf(item)
-        this.boxesOnScreen.splice(boxIndex, 1)
-        this.activeDragBox = this.boxesOnScreen.slice(-1)[0]
+      if (this.windowsOnScreen.length > 1) {
+        let boxIndex = this.windowsOnScreen.indexOf(item)
+        this.windowsOnScreen.splice(boxIndex, 1)
+        this.activeDragBox = this.windowsOnScreen.slice(-1)[0]
         this.$router.push('/window/' + this.activeDragBox);
         localStorage.setItem('activeDragBox', this.activeDragBox)
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
+        localStorage.setItem('windowsOnScreen', JSON.stringify(this.windowsOnScreen))
       }
       else {
-        this.boxesOnScreen = []
+        this.windowsOnScreen = []
         this.activeDragBox = null
-        localStorage.setItem('boxesOnScreen', JSON.stringify(this.boxesOnScreen))
+        localStorage.setItem('windowsOnScreen', JSON.stringify(this.windowsOnScreen))
         localStorage.setItem('activeDragBox', null)
         this.$router.push('/');
       }

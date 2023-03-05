@@ -12,6 +12,7 @@
       <button
         class="file-window__control bg-yellow-400 ml-1.5"
         type="button"
+        @click.stop="minimizeWindow(id)"
       />
       <button
         class="file-window__control bg-green-400 ml-1.5"
@@ -45,6 +46,9 @@ export default {
   methods: {
     closeWindow(id) {
       this.uiStore.removeFileWindow(id)
+    },
+    minimizeWindow(id) {
+      this.uiStore.minimizedBoxes.push(id)
     },
   },
 };

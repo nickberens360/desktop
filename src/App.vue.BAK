@@ -44,10 +44,10 @@ export default {
     ...mapStores(useUIStore),
   },
   mounted() {
-    let localBoxItems = JSON.parse(localStorage.getItem('boxesOnScreen'))
-    let stateBoxItems = this.uiStore.boxesOnScreen
+    let localBoxItems = JSON.parse(localStorage.getItem('windowsOnScreen'))
+    let stateBoxItems = this.uiStore.windowsOnScreen
     if (localBoxItems) {
-      this.uiStore.boxesOnScreen = localBoxItems
+      this.uiStore.windowsOnScreen = localBoxItems
       this.setItems = localBoxItems
     } else {
       this.setItems = stateBoxItems
