@@ -21,9 +21,9 @@ export default {
       localStorage.clear();
       window.location.reload();
     },
-    // addItem(item) {
-    //   this.uiStore.setScreenBoxes(item)
-    // }
+    addItem(item) {
+      this.uiStore.setScreenBoxes(item)
+    }
   },
   computed: {
     ...mapStores(useUIStore),

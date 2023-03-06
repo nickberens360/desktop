@@ -46,6 +46,16 @@ export default {
       required: false,
       default: null,
     },
+    initialX: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    initialY: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -55,9 +65,13 @@ export default {
   },
   async mounted() {
     this.saveOnResized(this.$refs[this.id]);
+    this.x = +this.initialX;
+    this.y = +this.initialY;
 
-    this.x = +localStorage.getItem(`${this.id}-x`) || 0;
-    this.y = +localStorage.getItem(`${this.id}-y`) || 0;
+    if (localStorage.getItem(`${this.id}-x`) && localStorage.getItem(`${this.id}-y`)) {
+      this.x = +localStorage.getItem(`${this.id}-x`);
+      this.y = +localStorage.getItem(`${this.id}-y`);
+    }
 
   },
   computed: {

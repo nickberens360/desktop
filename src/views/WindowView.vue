@@ -4,6 +4,8 @@
     :id="item"
     :key="item"
     :initial-z-index="index"
+    :initial-x="index * 20"
+    :initial-y="index * 20"
     container-class="file-window-container"
     :title="item"
   />

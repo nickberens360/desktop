@@ -6,6 +6,8 @@
       :id="id"
       use-handle
       :initial-z-index="initialZIndex"
+      :initial-x="initialX"
+      :initial-y="initialY"
       @drag-box-clicked="(handleDragBoxClicked)"
       @drag-box-mousedown="(handleDragBoxMouseDown)"
       @drag-box-mouseup="(handleDragBoxMouseUp)"
@@ -20,7 +22,10 @@
       <template #default>
         <div class="file-window__main flex h-full">
           <div class="file-window__sidebar px-4 py-2">
-            sidebar
+            sidebar <br>
+
+            {{initialX}}<br>
+            {{initialY}}
           </div>
           <div class="file-window__content px-4 py-2">
             <component :is="contentComponent"></component>
@@ -54,6 +59,16 @@ export default {
     initialZIndex: {
       type: Number,
       default: 999
+    },
+    initialX: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    initialY: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     title: {
       type: String,
