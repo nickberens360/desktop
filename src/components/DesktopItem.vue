@@ -156,9 +156,10 @@ export default {
   transform: skewX(0deg);
   transform-origin: bottom;
   border-radius: 10px;
+  transition: transform 0.25s ease;
 }
 
-.folder-icon__front {
+.router-link-active .folder-icon__front {
   position: absolute;
   bottom: 0;
   left: 0;
